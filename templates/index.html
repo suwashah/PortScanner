@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Port Scanner</title>
+    <link
+      href="{{ url_for('static', filename='bootstrap.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-4 col-md-3">
+          <div class="">
+            <div class="card border-success" style="width: 18rem">
+              <div class="card-header">
+                <h5 class="card-title font-red">Port Scanner</h5>
+              </div>
+              <div class="card-body">
+                <form method="POST" class="mt-3">
+                  <div class="form-group">
+                    <label for="target">Target IP Address:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="target"
+                      name="target"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mt-3">
+                    <label for="start_port">Starting Port:</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="start_port"
+                      name="start_port"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mt-3">
+                    <label for="end_port">Ending Port:</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="end_port"
+                      name="end_port"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mt-3">
+                    <h5>Select port type</h5>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="port_type"
+                        id="radioAll"
+                        value="0"
+                        checked
+                      />
+                      <label class="form-check-label" for="radioAll">
+                        All
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="port_type"
+                        id="radioOpen"
+                        value="1"
+                      />
+                      <label class="form-check-label" for="radioOpen">
+                        Open
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="port_type"
+                        id="radioClosed"
+                        value="2"
+                      />
+                      <label class="form-check-label" for="radioClosed">
+                        Closed
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="port_type"
+                        id="radioFiltered"
+                        value="3"
+                      />
+                      <label class="form-check-label" for="radioFiltered">
+                        Filtered
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-success mt-3">
+                      Scan Ports
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          {% if scan_results %}
+          <table class="table table-responsive table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Port</th>
+                <th>State</th>
+                <th>Service</th>
+                <th>Service Product</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for result in scan_results %}
+              <tr>
+                <td>
+                  {{ result.port }} {% if result.protocol!=None %} /
+                  {{result.protocol}}{% endif %}
+                </td>
+                <td>{{ result.status }}</td>
+                <td>{{ result.service }}</td>
+                <td>{{ result.service_product }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <p>Your results will be displayed here</p>
+          {% endif %}
+          <!-- {% if open_ports %}
+          <h2 class="mt-5">Open Ports:</h2>
+          <ul>
+            {% for port in open_ports %}
+            <li>Port {{ port }} is open.</li>
+            {% endfor %}
+          </ul>
+          {% endif %} {% if closed_ports %}
+          <h2 class="mt-5">Closed Ports:</h2>
+          <ul>
+            {% for port in closed_ports %}
+            <li>Port {{ port }} is closed.</li>
+            {% endfor %}
+          </ul>
+          {% endif %} {% if filtered_ports %}
+          <h2 class="mt-5">Filtered Ports:</h2>
+          <ul>
+            {% for port in filtered_ports %}
+            <li>Port {{ port }} is filtered.</li>
+            {% endfor %}
+          </ul>
+          {% endif %} -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
