@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 import socket
-import nmap
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
@@ -31,11 +30,6 @@ def scan_ports(target, start_port, end_port, port_type):
                 service = socket.getservbyport(port)
             except OSError:
                 service = "Unknown"
-            # Get protocol and service product using python-nmap
-            # nm = nmap.PortScanner()
-            # nm.scan(target, str(port))
-            # protocol = nm[target]['tcp'][port]['name']
-            # service_product = nm[target]['tcp'][port]['product']
 
             results.append(PortScanResult(
                 port, "open", service, protocol, service_product))
@@ -50,11 +44,6 @@ def scan_ports(target, start_port, end_port, port_type):
                     service = socket.getservbyport(port)
                 except OSError:
                     service = "Unknown"
-                # Get protocol and service product using python-nmap
-                # nm = nmap.PortScanner()
-                # nm.scan(target, str(port))
-                # protocol = nm[target]['tcp'][port]['name']
-                # service_product = nm[target]['tcp'][port]['product']
 
                 results.append(PortScanResult(
                     port, "open", service, protocol, service_product))
