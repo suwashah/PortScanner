@@ -71,7 +71,7 @@
                     <div class="form-check">
                       <input class="form-check-input" type="radio"
                       name="port_type" id="radioAll" value="0" {% if port_type
-                      == "0" %} checked {% endif %} required />
+                      == 0 %} checked {% endif %} required />
                       <label class="form-check-label" for="radioAll">
                         All
                       </label>
@@ -79,7 +79,7 @@
                     <div class="form-check">
                       <input class="form-check-input" type="radio"
                       name="port_type" id="radioOpen" value="1" {% if port_type
-                      == "1" %} checked {% endif %} required />
+                      == 1 %} checked {% endif %} required />
                       <label class="form-check-label" for="radioOpen">
                         Open
                       </label>
@@ -87,7 +87,7 @@
                     <div class="form-check">
                       <input class="form-check-input" type="radio"
                       name="port_type" id="radioClosed" value="2" {% if
-                      port_type == "2" %} checked {% endif %} required />
+                      port_type == 2 %} checked {% endif %} required />
                       <label class="form-check-label" for="radioClosed">
                         Closed
                       </label>
@@ -95,7 +95,7 @@
                     <div class="form-check">
                       <input class="form-check-input" type="radio"
                       name="port_type" id="radioFiltered" value="3" {% if
-                      port_type == "3" %} checked {% endif %} required/>
+                      port_type == 3 %} checked {% endif %} required/>
                       <label class="form-check-label" for="radioFiltered">
                         Filtered
                       </label>
@@ -162,10 +162,7 @@
                 <tbody>
                   {% if scan_results %} {% for result in scan_results %}
                   <tr>
-                    <td>
-                      {{ result.port }} {% if result.protocol!=None %} /
-                      {{result.protocol}}{% endif %}
-                    </td>
+                    <td>{{ result.port }}</td>
                     <td>{{ result.status }}</td>
                     <td>{{ result.service }}</td>
                   </tr>

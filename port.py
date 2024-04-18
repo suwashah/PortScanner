@@ -8,35 +8,21 @@ bootstrap = Bootstrap(app)
 
 
 class PortScanResult:
-    def __init__(self, port, status, start_time=None, finish_time=None, service=None, protocol=None, service_product=None):
+    def __init__(self, port, status, service=None):
         self.port = port
         self.status = status
-        self.start_time = start_time
-        self.finish_time = finish_time
         self.service = service
-        self.protocol = protocol
-        self.service_product = service_product
-
-
-def get_service_name(port):
-    try:
-        service = socket.getservbyport(port)
-        return service
-    except OSError:
-        return "Unknown"
 
 
 def scan_ports(target, start_port, end_port, port_type):
     open_count = 0
     closed_count = 0
     filtered_count = 0
-    protocol = None
-    service_product = None
     results = []
     service = ""
     start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     for port in range(start_port, end_port + 1):
-        service = ""
+        service = "-"
         # start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(1)  # Timeout for connection attempt
@@ -48,40 +34,33 @@ def scan_ports(target, start_port, end_port, port_type):
             try:
                 service = socket.getservbyport(port)
             except OSError:
-                service = "Unknown"
+                service = "unknown"
 
-            results.append(PortScanResult(
-                port, "open", service, protocol, service_product))
+            results.append(PortScanResult(port, "open", service))
         # Connection refused (port closed)
         elif port_type == 2 and result == 11:
             closed_count += 1
-            results.append(PortScanResult(
-                port, "closed"))
+            results.append(PortScanResult(port, "closed", service))
         elif port_type == 3 and result != 0 and result != 11:
             filtered_count += 1
-            results.append(PortScanResult(
-                port, "filtered"))
+            results.append(PortScanResult(port, "filtered", service))
         elif port_type == 0:
             if result == 0:
                 open_count += 1
                 try:
                     service = socket.getservbyport(port)
                 except OSError:
-                    service = "Unknown"
+                    service = "unknown"
 
-                results.append(PortScanResult(
-                    port, "open", service, protocol, service_product))
+                results.append(PortScanResult(port, "open", service))
             elif result == 11:
                 closed_count += 1
-                results.append(PortScanResult(
-                    port, "closed"))
+                results.append(PortScanResult(port, "closed", service))
             else:
                 filtered_count += 1
-                results.append(PortScanResult(
-                    port, "filtered"))
+                results.append(PortScanResult(port, "filtered", service))
 
     finish_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-
     return results, open_count, closed_count, filtered_count, start_time, finish_time
 
 
