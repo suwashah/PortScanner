@@ -43,7 +43,7 @@ def scan_ports(target, start_port, end_port, port_type):
             results.append(PortScanResult(port, "closed", service))
         elif port_type == 3 and result != 0 and result != 11:
             filtered_count += 1
-            results.append(PortScanResult(port, "filtered", service))
+            # results.append(PortScanResult(port, "filtered", service))
         elif port_type == 0:
             if result == 0:
                 open_count += 1
@@ -58,7 +58,7 @@ def scan_ports(target, start_port, end_port, port_type):
                 results.append(PortScanResult(port, "closed", service))
             else:
                 filtered_count += 1
-                results.append(PortScanResult(port, "filtered", service))
+                # results.append(PortScanResult(port, "filtered", service))
 
     finish_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     return results, open_count, closed_count, filtered_count, start_time, finish_time
