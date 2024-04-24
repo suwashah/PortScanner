@@ -16,7 +16,7 @@ class PortScanResult:
 
 def getService_byPort(port):
     try:
-        service = socket.socket.getservbyport(port)
+        service = socket.getservbyport(port)
     except OSError:
         service = "unknown"
     return service
